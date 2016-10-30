@@ -35,21 +35,19 @@ loop do
 	until Time.now.to_s.split(" ")[1].match(/\d{2}:\d2:00/)!=nil;end 
 		# line above: time check no.1, after the condition is true, the picture is uploaded into the Twitter picture database
 		# recommended by author: 3 min before actually posting the picture
-	#_rpre = Nokogiri::HTML(HTTP.get(URI("http://www.zerochan.net/#{_q}")))
-	#_rnd = _rpre.css('p[class="pagination"]').children.select{|i|i.to_s.match(/page 1 of \d+/)}[0].to_s[2,50].chop.split(" ")[-1].to_i
+	_rpre = Nokogiri::HTML(HTTP.get(URI("http://www.zerochan.net/#{_q}")))
+	_rnd = _rpre.css('p[class="pagination"]').children.select{|i|i.to_s.match(/page 1 of \d+/)}[0].to_s[2,50].chop.split(" ")[-1].to_i
 	begin
-		#_rnd>100 ? 
-			randpage=Random.rand(88888888)+11111111 #: \
-			#randpage=Random.rand(_rnd)+1
+		_rnd>100 ? randpage=Random.rand(88888888)+11111111 randpage=Random.rand(_rnd)+1
 		puts "Random number: #{randpage}"
 		begin
-			#if _rnd>100
+			if _rnd>100
 				p "http://www.zerochan.net/#{_q}?o=#{randpage}"
 				res_rand = Nokogiri::HTML(HTTP.get(URI("http://www.zerochan.net/#{_q}?o=#{randpage}")))
-			#else
-			#	p "http://www.zerochan.net/#{_q}?p=#{randpage}"
-			#	res_rand = Nokogiri::HTML(HTTP.get(URI("http://www.zerochan.net/#{_q}?p=#{randpage}")))
-			#end
+			else
+				p "http://www.zerochan.net/#{_q}?p=#{randpage}"
+				res_rand = Nokogiri::HTML(HTTP.get(URI("http://www.zerochan.net/#{_q}?p=#{randpage}")))
+			end
 		rescue
 			sleep 5
 			retry
